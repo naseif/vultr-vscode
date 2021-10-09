@@ -1,0 +1,34 @@
+{
+  "name": "vultr-vscode",
+  "version": "2.0.0",
+  "description": "vultr-vscode is a node.js utility that enables you to create a virtual machine on vultr and host vs code on the browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm start test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naseif/vultr-vscode.git"
+  },
+  "keywords": [
+    "vscode",
+    "vscode-browser",
+    "vultr",
+    "vultr-vscode"
+  ],
+  "author": "naseif",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naseif/vultr-vscode/issues"
+  },
+  "homepage": "https://github.com/naseif/vultr-vscode#readme",
+  "dependencies": {
+    "@vultr/vultr-node": "^2.2.0",
+    "argparse": "^2.0.1",
+    "chalk": "^4.1.2",
+    "cli-table": "^0.3.6",
+    "moment": "^2.29.1",
+    "node-ssh": "^12.0.0",
+    "prompt-sync": "^4.2.0"
+  }
+}
