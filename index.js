@@ -1,11 +1,9 @@
-const VultrNode = require("@vultr/vultr-node");
 const { ArgumentParser } = require("argparse");
 const { version } = require("./package.json");
 const { init } = require("./src/init");
 const { Initialize } = require("./src/vultrInitializer");
 const { createInstance } = require("./src/createInstance");
 const { sshToServer } = require("./src/connectWithSSH");
-const { logger } = require("./src/logger");
 const Table = require("cli-table");
 const fs = require("fs");
 const {
