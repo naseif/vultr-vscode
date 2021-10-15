@@ -21,7 +21,10 @@ const parser = new ArgumentParser({
 // Arguments
 parser.add_argument("-v", "--version", { action: "version", version });
 parser.add_argument("--key", { help: "Vultr API Key" });
-parser.add_argument("--stop", { help: "Stops the instance" });
+parser.add_argument("--stop", {
+  help: "Stops the instance",
+  action: "store_true",
+});
 parser.add_argument("--defServer", {
   help: "Creats the default server on vultr",
   action: "store_true",
@@ -42,6 +45,13 @@ const defaults = {
 // Magic!
 if (args.init) {
   init();
+  return;
+}
+
+if (args.stop) {
+  stopInstance();
+  logger(`Server Stopped Successfully!`);
+  return;
 }
 
 if (!args.key)
@@ -49,10 +59,6 @@ if (!args.key)
     "You did not provide your api key!, see help for more info",
     "error"
   );
-
-if (args.stop) {
-  stopInstance();
-}
 
 if (args.key && args.defServer) {
   (async () => {
