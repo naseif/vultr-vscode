@@ -1,15 +1,17 @@
 const { ArgumentParser } = require("argparse");
 const { version } = require("./package.json");
 const { init } = require("./src/init");
-const { Initialize } = require("./src/vultrInitializer");
 const { createInstance } = require("./src/createInstance");
 const { sshToServer } = require("./src/connectWithSSH");
 const Table = require("cli-table");
 const fs = require("fs");
+const { Initialize } = require("./src/vultrInitializer");
 const {
   getConfigFromRoot,
   parsePasswordFromConfig,
 } = require("./src/getConfigFile");
+const { logger } = require("./src/logger");
+const { stopInstance } = require("./src/stopInstance");
 
 const parser = new ArgumentParser({
   description: "vultr-vscode",
@@ -19,6 +21,7 @@ const parser = new ArgumentParser({
 // Arguments
 parser.add_argument("-v", "--version", { action: "version", version });
 parser.add_argument("--key", { help: "Vultr API Key" });
+parser.add_argument("--stop", { help: "Stops the instance" });
 parser.add_argument("--defServer", {
   help: "Creats the default server on vultr",
   action: "store_true",
@@ -47,8 +50,13 @@ if (!args.key)
     "error"
   );
 
+if (args.stop) {
+  stopInstance();
+}
+
 if (args.key && args.defServer) {
   (async () => {
+    let startTime = performance.now();
     let table = new Table({
       head: ["Info", "Specs"],
       colWidths: [20, 40],
@@ -71,6 +79,8 @@ if (args.key && args.defServer) {
         ["VS Code Password", vscode_password]
       );
       fs.unlinkSync(__dirname + "/config.yaml");
+      let endTime = performance.now();
+      logger(`Execution took ${(endTime - startTime) / 1000} seconds`);
       console.log(table.toString());
     }, 50000);
   })();
