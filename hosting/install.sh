@@ -4,6 +4,7 @@ apt update
 apt install -y nginx certbot python3-certbot-nginx
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 apt-get install autoconf automake g++ libtool -y
+apt-get install --install-recommends build-essential libtool-bin autoconf -y
 curl -fsSL https://code-server.dev/install.sh | sh
 
 ## Install duckdns (Thanks for whoever wrote this script!)
