@@ -21,28 +21,32 @@ module.exports.createInstance = async (init, defaults) => {
   serverInfo.rootPassword = instance.instance.default_password;
   serverInfo.ID = instance.instance.id;
   serverInfo.status = instance.instance.status;
+  serverInfo.serverStatus = instance.instance.server_status;
 
   logger(
     "Server Created Successfully, Waiting for the Server to become responsive"
   );
 
   while (serverInfo.status === "pending") {
-    const listInstance = await init.instances.listInstances();
-    data = listInstance.instances.filter(
-      (instance) => instance.id === serverInfo.ID
-    );
-    if (data[0].status !== "pending") {
-      serverInfo.status = data[0].status;
+    const listInstance = await init.instances.getInstance({
+      "instance-id": serverInfo.ID,
+    });
+    data = listInstance;
+    if (
+      data.instance.status !== "pending" &&
+      data.instance.server_status !== "none"
+    ) {
+      serverInfo.status = data.instance.status;
+      serverInfo.serverStatus = data.instance.server_status;
+      logger(
+        "Server became responsive, A SSH Connection will be made now. This could take up to 40 seconds!"
+      );
       break;
     }
   }
 
-  logger(
-    "Server became responsive, A SSH Connection will be made now. This could take up to 40 seconds!"
-  );
-
-  serverInfo.IP = data[0].main_ip;
-  serverInfo.OS = data[0].os;
-  serverInfo.REGION = data[0].region;
+  serverInfo.IP = data.instance.main_ip;
+  serverInfo.OS = data.instance.os;
+  serverInfo.REGION = data.instance.region;
   return serverInfo;
 };
