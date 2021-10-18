@@ -25,6 +25,10 @@ parser.add_argument("--stop", {
   help: "Stops the instance",
   action: "store_true",
 });
+parser.add_argument("--start", {
+  help: "Runs the Script",
+  action: "store_true",
+});
 parser.add_argument("--defServer", {
   help: "Creats the default server on vultr",
   action: "store_true",
@@ -42,52 +46,57 @@ const defaults = {
   os: "	387",
 };
 
+const startInstance = async (key, config) => {
+  let startTime = performance.now();
+  let table = new Table({
+    head: ["Info", "Specs"],
+    colWidths: [20, 40],
+  });
+  const vultr = Initialize(key);
+  const details = await createInstance(vultr, config);
+  setTimeout(async () => {
+    await sshToServer(details.IP, details.rootPassword);
+    await getConfigFromRoot(details.IP, details.rootPassword);
+    const vscode_password = parsePasswordFromConfig(__dirname + "/config.yaml");
+    table.push(
+      ["ID", details.ID],
+      ["IP", details.IP],
+      ["Password", details.rootPassword],
+      ["OS", details.OS],
+      ["Status", details.status],
+      ["Region", details.REGION],
+      ["VS Code Password", vscode_password]
+    );
+    fs.unlinkSync(__dirname + "/config.yaml");
+    let endTime = performance.now();
+    logger(`Execution took ${(endTime - startTime) / 1000} seconds`);
+    console.log(table.toString());
+  }, 50000);
+};
+
 // Magic!
 if (args.init) {
   init();
   return;
 }
 
+if (args.start) {
+  (async () => {
+    let config;
+    if (fs.existsSync("./Config/vultr_config.json")) {
+      config = require("./Config/vultr_config.json");
+    }
+    await startInstance(config.key, config);
+  })();
+}
 if (args.stop) {
   stopInstance();
   logger(`Server Stopped Successfully!`);
   return;
 }
 
-if (!args.key)
-  return logger(
-    "You did not provide your api key!, see help for more info",
-    "error"
-  );
-
 if (args.key && args.defServer) {
   (async () => {
-    let startTime = performance.now();
-    let table = new Table({
-      head: ["Info", "Specs"],
-      colWidths: [20, 40],
-    });
-    const vultr = Initialize(args.key);
-    const details = await createInstance(vultr, defaults);
-    setTimeout(async () => {
-      await sshToServer(details.IP, details.rootPassword);
-      await getConfigFromRoot(details.IP, details.rootPassword);
-      const vscode_password = parsePasswordFromConfig(
-        __dirname + "/config.yaml"
-      );
-      table.push(
-        ["ID", details.ID],
-        ["IP", details.IP],
-        ["Password", details.rootPassword],
-        ["OS", details.OS],
-        ["Status", details.status],
-        ["Region", details.REGION],
-        ["VS Code Password", vscode_password]
-      );
-      fs.unlinkSync(__dirname + "/config.yaml");
-      let endTime = performance.now();
-      logger(`Execution took ${(endTime - startTime) / 1000} seconds`);
-      console.log(table.toString());
-    }, 50000);
+    await startInstance(args.key, defaults);
   })();
 }
