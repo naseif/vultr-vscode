@@ -69,7 +69,8 @@ const startInstance = async (key, config) => {
     );
     fs.unlinkSync(__dirname + "/config.yaml");
     let endTime = performance.now();
-    logger(`Execution took ${(endTime - startTime) / 1000} seconds`);
+    let total = (endTime - startTime) / 1000;
+    logger(`Execution took ${total.toFixed(2)} seconds`);
     console.log(table.toString());
   }, 50000);
 };
