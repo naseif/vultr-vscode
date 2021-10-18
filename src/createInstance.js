@@ -1,4 +1,5 @@
 const { logger } = require("./logger");
+const fs = require("fs");
 
 /**
  *
@@ -48,5 +49,11 @@ module.exports.createInstance = async (init, defaults) => {
   serverInfo.IP = data.instance.main_ip;
   serverInfo.OS = data.instance.os;
   serverInfo.REGION = data.instance.region;
+  fs.writeFileSync(
+    __dirname + "/.." + "/Config/instance.json",
+    JSON.stringify(serverInfo),
+    "UTF-8"
+  );
+
   return serverInfo;
 };
