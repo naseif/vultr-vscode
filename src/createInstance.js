@@ -5,7 +5,7 @@ const fs = require("fs");
  *
  * @param {VULTR} init
  * @param {Object} defaults
- * @returns
+ * @returns ServerObject
  */
 
 module.exports.createInstance = async (init, defaults) => {

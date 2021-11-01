@@ -43,7 +43,7 @@ const args = parser.parse_args();
 const defaults = {
   plan: "vc2-2c-4gb",
   region: "fra",
-  os: "	387",
+  os: "387",
 };
 
 const startInstance = async (key, config) => {
@@ -86,13 +86,18 @@ if (args.start) {
     let config;
     if (fs.existsSync("./Config/vultr_config.json")) {
       config = require("./Config/vultr_config.json");
+    } else {
+      logger(
+        "Did not Find your Config file. Please run --init instead",
+        "error"
+      );
+      return;
     }
     await startInstance(config.key, config);
   })();
 }
 if (args.stop) {
   stopInstance();
-  logger(`Server Stopped Successfully!`);
   return;
 }
 

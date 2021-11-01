@@ -7,7 +7,7 @@ const scriptPath = __dirname + `/../hosting/`;
  *  Connects to the newly created virtual machine per SSH and tries to run this shell script!
  * @param {IP} host
  * @param {PASSWORD} password
- * @returns
+ * @returns void
  */
 
 module.exports.sshToServer = async (host, password) => {

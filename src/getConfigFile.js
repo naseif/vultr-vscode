@@ -8,7 +8,7 @@ const fs = require("fs");
  *  Connects to the newly created virtual machine per SSH and downloads the config file to get the password after the installation is done
  * @param {IP} host
  * @param {PASSWORD} password
- * @returns
+ * @returns void
  */
 
 module.exports.getConfigFromRoot = async (host, password) => {
