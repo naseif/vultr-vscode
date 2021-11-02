@@ -7,6 +7,11 @@ apt-get install autoconf automake g++ libtool -y
 apt-get install --install-recommends build-essential libtool-bin autoconf -y
 curl -fsSL https://code-server.dev/install.sh | sh
 
+## These values must be changed!
+domainName=##
+duckToken=##
+letsEncryptEmail=##
+
 ## Install duckdns (Thanks for whoever wrote this script!)
 userHome=$(eval echo ~${USER})
 duckPath="$userHome/duckdns"
@@ -14,7 +19,6 @@ duckLog="$duckPath/duck.log"
 duckScript="$duckPath/duck.sh"
 
 # Main Install ***
-domainName=##
 mySubDomain="${domainName%%.*}"
 duckDomain="${domainName#*.}"
 if [ "$duckDomain" != "duckdns.org" ] && [ "$duckDomain" != "$mySubDomain" ] || [ "$mySubDomain" = "" ]
@@ -22,8 +26,6 @@ then
   echo "[Error] Invalid domain name. Program will now quit."
   exit 0
 fi
-# Get Token value
-duckToken=##
 # Create duck dir
 if [ ! -d "$duckPath" ] 
 then
@@ -64,7 +66,6 @@ fi
 
 cp code-server /etc/nginx/sites-available/code-server
 sudo ln -s ../sites-available/code-server /etc/nginx/sites-enabled/code-server
-letsEncryptEmail=##
 sudo certbot --non-interactive --redirect --agree-tos --nginx -d $domainName -m $letsEncryptEmail
 systemctl restart nginx
 sudo systemctl enable --now code-server@root
