@@ -2,7 +2,7 @@ const { logger } = require("./logger");
 const fs = require("fs");
 
 /**
- *
+ * Creats an Instance on Vultr
  * @param {VULTR} init
  * @param {Object} defaults
  * @returns ServerObject

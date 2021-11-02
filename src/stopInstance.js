@@ -9,7 +9,10 @@ const fs = require("fs");
  */
 
 module.exports.stopInstance = async () => {
-  if (fs.existsSync("Config/instance.json")) {
+  if (
+    fs.existsSync("Config/instance.json") &&
+    fs.existsSync("Config/vultr_config.json")
+  ) {
     const instanceObject = require("../Config/instance.json");
     const vultrConfig = require("../Config/vultr_config.json");
     try {
