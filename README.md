@@ -75,10 +75,14 @@ node index.js --stop
 
 if the config file does not exist, it will default to prompts and ask after the API Key and the ID of the instance to destroy.
 
-## Contributions
+## Result
+
+![image](https://user-images.githubusercontent.com/68638710/139856507-aa76a022-87bd-4a95-96ff-6118a8bdd7c4.png)
+
+# Contributions
 
 Software contributions are welcome. If you are not a dev, testing and reproting bugs can also be very helpful!
 
-## Questions?
+# Questions?
 
 Please open an issue if you have questions, wish to request a feature, etc.
