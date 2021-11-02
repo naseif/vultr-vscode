@@ -25,7 +25,14 @@ npm i
 # How to use
 
 ## Creating an Instance
-First of all you are going to need your Vultr API Key to initalize the vultr client. You can find your API Key [here](https://my.vultr.com/settings/#settingsapi)
+First of all you are going to need your Vultr API Key to initalize the vultr client. You can find your API Key [here](https://my.vultr.com/settings/#settingsapi).
+
+Second you need to create an account on duckdns to get a free domain to host visual code with. After you have created your duckdns account create a domain.
+
+Now go to `/hosting/install.sh` and add your domain name, duckdns token and an email for the SSL certificate [here](https://github.com/naseif/vultr-vscode/blob/3bbfb2bbad873c4d01cb905c56a372d22f3329f8/hosting/install.sh#L10) 
+
+Also change `server_name` in `/hosting/code-server` from `##;` to `myduckdnsdomain.com;`
+
 
 To create a server with the defaults:
 
