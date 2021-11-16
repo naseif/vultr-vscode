@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/naseif/vultr-vscode#readme",
   "dependencies": {
-    "@vultr/vultr-node": "^2.2.0",
+    "@vultr/vultr-node": "^2.2.1",
     "argparse": "^2.0.1",
     "chalk": "^4.1.2",
     "cli-table": "^0.3.6",
