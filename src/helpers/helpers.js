@@ -5,6 +5,13 @@ const ssh = new NodeSSH();
 const fs = require("fs");
 
 class Helpers {
+  /**
+   * Connects to the newly created virtual machine per SSH and downloads the config file to get the password after the installation is done
+   * @param {IP: string} host
+   * @param {Password: string} password
+   * @returns void
+   */
+
   async getConfigFromRoot(host, password) {
     try {
       await ssh.connect({ host: host, username: "root", password: password });
@@ -19,6 +26,12 @@ class Helpers {
     }
   }
 
+  /**
+   * Parses the password from the Config file
+   * @param {PATH: string} path
+   * @returns Password from Config file
+   */
+
   parsePasswordFromConfig(path) {
     let password;
     const data = fs.readFileSync(path, "utf8");
@@ -27,6 +40,13 @@ class Helpers {
     password = trim[3].slice(0, filter).trim();
     return password;
   }
+
+  /**
+   * Logger for debugging purposes
+   * @param {string} message
+   * @param {string} type
+   * @returns ""
+   */
 
   logger(message, type = "log") {
     const date = `${moment().format("DD-MM-YYYY hh:mm:ss")}`;

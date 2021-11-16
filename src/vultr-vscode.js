@@ -15,8 +15,14 @@ class Vultr {
     this.Helpers = new Helpers();
   }
 
-  async createInstance(defaults) {
-    if (!defaults)
+  /**
+   *  Creats an Instance on Vultr
+   * @param {Object} Options
+   * @returns Object Containing the Instance Information
+   */
+
+  async createInstance(Options) {
+    if (!Options)
       return this.Helpers.logger(
         "Please provide Your Instance options!",
         "error"
@@ -27,9 +33,9 @@ class Vultr {
 
     this.Helpers.logger("Creating the Server, Please wait....");
     const instance = await this.Vultr.instances.createInstance({
-      region: `${defaults.region}`,
-      plan: `${defaults.plan}`,
-      os_id: `${defaults.os}`,
+      region: `${Options.region}`,
+      plan: `${Options.plan}`,
+      os_id: `${Options.os}`,
     });
 
     serverInfo.rootPassword = instance.instance.default_password;
@@ -70,6 +76,13 @@ class Vultr {
 
     return serverInfo;
   }
+
+  /**
+   * Connects to the newly created virtual machine per SSH and tries to run this shell script!
+   * @param {IP: string} host
+   * @param {Password: string} password
+   * @returns void
+   */
 
   async _connectWithSSH(host, password) {
     return new Promise((resolve, reject) => {
@@ -127,6 +140,12 @@ class Vultr {
     });
   }
 
+  /**
+   * Starts the Instance
+   * @param {Object} config
+   * @returns void
+   */
+
   async startInstance(config) {
     let startTime = performance.now();
     let table = new Table({
@@ -156,6 +175,12 @@ class Vultr {
       console.log(table.toString());
     }, 60000);
   }
+
+  /**
+   * Creates a Config File
+   * @returns void
+   */
+
   InitializeConfig() {
     const vultrKey = prompt(`Please provide your Vultr API Key: `);
     if (!vultrKey) return console.log("Please provide a vultr api key!");
@@ -193,6 +218,11 @@ class Vultr {
       "UTF-8"
     );
   }
+
+  /**
+   * Destroys the created Instance
+   * @returns void
+   */
 
   async StopInstance() {
     if (fs.existsSync("Config/instance.json")) {
