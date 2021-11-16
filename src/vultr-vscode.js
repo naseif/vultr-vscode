@@ -225,8 +225,8 @@ class VultrVSCode {
    */
 
   async StopInstance() {
-    if (fs.existsSync("Config/instance.json")) {
-      const instanceObject = require("../Config/instance.json");
+    if (fs.existsSync("../instance.json")) {
+      const instanceObject = require("../instance.json");
       try {
         await this.Vultr.instances.deleteInstance({
           "instance-id": `${instanceObject.ID}`,
@@ -242,19 +242,18 @@ class VultrVSCode {
       `Instance Object not found in the Config Folder, defaulting to prompts!`
     );
 
-    const key = prompt(`Vultr Key: `);
-    const vultr = Initialize(key);
     const instanceID = prompt(`Instance ID: `);
-    const getInstance = await vultr.instances.getInstance({
+    const getInstance = await this.Vultr.instances.getInstance({
       "instance-id": instanceID,
     });
+
     if (!getInstance)
       return this.Helpers.logger(
         `No instance found with this ID or maybe it does not exist!`,
         `error`
       );
     try {
-      await vultr.instances.deleteInstance({
+      await this.Vultr.instances.deleteInstance({
         "instance-id": `${instanceID}`,
       });
       this.Helpers.logger(`Server Stopped Successfully!`);
