@@ -5,7 +5,7 @@ const { Helpers } = require("./helpers/helpers");
 const Table = require("cli-table");
 const scriptPath = __dirname + `/../hosting/`;
 
-class Vultr {
+class VultrVSCode {
   /**
    * Vultr Client Interface
    * @param {Vultr} vultr
@@ -264,4 +264,4 @@ class Vultr {
   }
 }
 
-module.exports = { Vultr };
+module.exports = { VultrVSCode };
